@@ -165,7 +165,7 @@ function setMode(m) {
 }
 function loadCards() {
   if (CARDS.length) return;
-  fetch("cards.json?t=" + Date.now()).then(r => r.json()).then(d => {
+  fetch("cards/cards.json?t=" + Date.now()).then(r => r.json()).then(d => {
     const dates = Object.keys(d).sort().reverse();
     if (!dates.length) { document.getElementById("slides").innerHTML = '<p style="padding:20px">暫無圖卡</p>'; return; }
     cardDate = dates[0];
