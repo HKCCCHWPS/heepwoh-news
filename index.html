@@ -1,130 +1,254 @@
 <!doctype html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>協小新聞台 · 新聞報道</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>協小新聞台 · Podcast</title>
 <style>
-:root{--red:#C8102E;--bg:#100e0c;--card:#1d1916;--line:#332c26;--muted:#a89a8c;--gold:#E9C46A}
+:root{--red:#C8102E;--ink:#171310;--bg:#100e0c;--card:#1d1916;--line:#332c26;--muted:#a89a8c;--gold:#E9C46A}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0 auto;max-width:560px;background:var(--bg);color:#f3ede6;font-family:"Microsoft JhengHei","華康中圓體",sans-serif;padding-bottom:190px}
-header{padding:18px 16px 8px;text-align:center}
-header .badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:3px 12px;border-radius:999px;letter-spacing:1px}
-header h1{margin:10px 0 4px;font-size:26px;letter-spacing:2px}
+body{margin:0;background:var(--bg);color:#f3ede6;font-family:"Microsoft JhengHei","華康中圓體",sans-serif;padding-bottom:215px}
+header{padding:14px 16px 6px;text-align:center}
+header .badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;letter-spacing:1px}
+header h1{margin:8px 0 4px;font-size:26px;letter-spacing:2px}
 header p{margin:0;color:var(--muted);font-size:13px}
-.hero{margin:14px;background:linear-gradient(135deg,#8B1E3F,#C8102E);border-radius:18px;padding:18px 18px 16px}
-.hero .d{font-size:13px;opacity:.9;letter-spacing:1px}
-.hero .t{font-size:21px;font-weight:700;margin:6px 0 4px;letter-spacing:1px}
-.hero .m{font-size:12.5px;opacity:.9}
-.hero button{margin-top:14px;width:100%;background:#fff;color:var(--red);border:0;border-radius:12px;padding:14px;font-size:17px;font-weight:700;letter-spacing:2px}
-.chap{margin:0 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer}
-.chip:active{transform:scale(.985)}
-.chip.on{border-color:var(--red);box-shadow:0 0 0 2px rgba(200,16,46,.3) inset}
-.chip b{display:block;font-size:17px;margin-bottom:3px;letter-spacing:1px}
-.chip span{font-size:12px;color:var(--muted)}
-h3{margin:22px 16px 8px;font-size:14px;color:var(--muted);font-weight:400;letter-spacing:1px}
-.list{margin:0 14px}
-.ep{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 14px 8px}
+.tile{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.tile:active{transform:scale(.985)}
+.cover{height:76px;display:flex;align-items:center;justify-content:center;font-size:34px}
+.tile .body{padding:9px 12px 10px}
+.tile h2{margin:0 0 2px;font-size:17px;letter-spacing:1px}
+.tile .sub{font-size:11.5px;color:var(--muted)}
+.tile .go{margin-top:6px;font-size:12.5px;color:var(--gold)}
+.tile.playing{border-color:var(--red);box-shadow:0 0 0 2px rgba(200,16,46,.35) inset}
+.c1{background:linear-gradient(135deg,#8B1E3F,#C8102E)}
+.c2{background:linear-gradient(135deg,#204B57,#3E7C8C)}
+.c3{background:linear-gradient(135deg,#3C2A6E,#6C4AB6)}
+.c4{background:linear-gradient(135deg,#7A4E1D,#C58A3D)}
+section.list{padding:6px 14px 20px}
+section.list h3{font-size:14px;color:var(--muted);letter-spacing:1px;margin:14px 0 8px;font-weight:400}
+.ep{display:flex;align-items:center;gap:12px;padding:11px 12px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.ep .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto}
 .ep .t{flex:1;min-width:0}
-.ep .t b{display:block;font-size:15px}
+.ep .t b{display:block;font-size:15px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ep .t span{font-size:12px;color:var(--muted)}
-.ep button{background:#2a231d;color:#fff;border:0;border-radius:9px;padding:9px 13px;font-size:13px}
-#bar{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:560px;bottom:0;background:#181412;border-top:1px solid var(--line);padding:10px 14px calc(12px + env(safe-area-inset-bottom));z-index:30}
+.ep button{background:#2a231d;color:#fff;border:0;border-radius:9px;padding:9px 12px;font-size:13px}
+#bar{position:fixed;left:0;right:0;bottom:0;background:#181412;border-top:1px solid var(--line);padding:10px 14px calc(12px + env(safe-area-inset-bottom));z-index:30}
 #bar .top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#bar .ic2{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
 #bar .tt{flex:1;min-width:0}
 #bar .tt b{display:block;font-size:13.5px}
 #bar .tt span{font-size:11px;color:var(--muted)}
 #seek{width:100%;accent-color:var(--red)}
-#bar .row{display:flex;align-items:center;gap:8px;margin-top:5px}
-#bar .row button{background:#2a231d;color:#fff;border:0;border-radius:8px;padding:9px 11px;font-size:13px;flex:1}
-#bar .tm{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:86px;text-align:right}
-.hint{color:#6f6459;font-size:11.5px;text-align:center;padding:14px 20px 0}
+#bar .row{display:flex;align-items:center;gap:10px;margin-top:4px}
+#bar .row button{background:#2a231d;color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:13px}
+#bar .tm{margin-left:auto;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.hint{color:#6f6459;font-size:11.5px;text-align:center;padding:0 20px 10px}
+/* ── 模式切換（2026-11-01）：聽新聞 ⇄ 低小睇圖卡 ── */
+.switch{display:flex;gap:8px;padding:10px 14px 4px}
+.switch button{flex:1;padding:11px 8px;border-radius:12px;border:1px solid var(--line);background:var(--card);
+  color:#cbbfb2;font-family:inherit;font-size:14px;letter-spacing:.5px}
+.switch button.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+body.lowmode .grid,body.lowmode .hint,body.lowmode section.list{display:none}
+#cardsView{display:none;padding:8px 0 10px}
+body.lowmode #cardsView{display:block}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:0 14px 6px;
+  scrollbar-width:none}
+.slides::-webkit-scrollbar{display:none}
+.bigcard{flex:0 0 100%;scroll-snap-align:center;border-radius:18px;overflow:hidden;
+  background:#1d1916;border:1px solid var(--line)}
+.bigcard .top{height:104px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:44px;position:relative}
+.bigcard .top .cat{position:absolute;left:12px;top:10px;background:rgba(0,0,0,.35);color:#fff;
+  font-size:12.5px;padding:4px 10px;border-radius:999px;letter-spacing:1px}
+.bigcard .top .dt{position:absolute;right:12px;top:12px;font-size:12px;color:rgba(255,255,255,.9)}
+.bigcard .bd{padding:14px 16px 16px}
+.bigcard h2{margin:0 0 10px;font-size:23px;line-height:1.32;letter-spacing:.5px}
+.bigcard ul{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:9px}
+.bigcard li{position:relative;padding-left:20px;font-size:15.5px;line-height:1.5;color:#e4dbd1}
+.bigcard li:before{content:"";position:absolute;left:4px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.bigcard .think{background:#231e1a;border-left:4px solid var(--gold);border-radius:10px;padding:11px 13px;
+  font-size:14.5px;line-height:1.5;color:#f0e6da;margin-bottom:12px}
+.bigcard .acts{display:flex;gap:8px}
+.bigcard .acts button{flex:1;padding:11px 8px;border-radius:10px;border:1px solid var(--line);
+  background:#2a231d;color:#f0e6da;font-family:inherit;font-size:13.5px}
+.bigcard .acts button.p{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.bigcard .src{font-size:11.5px;color:var(--muted);margin-bottom:10px}
+.pager{display:flex;align-items:center;justify-content:center;gap:14px;padding:6px 14px 4px;color:var(--muted);font-size:12.5px}
+.pager button{background:#2a231d;color:#fff;border:0;border-radius:9px;padding:8px 14px;font-size:14px}
+.cardsHint{text-align:center;color:#6f6459;font-size:11.5px;padding:4px 20px 6px}
+
 </style>
 </head>
 <body>
 <header>
-  <span class="badge">C.C.C. HEEP WOH · 新聞報道</span>
+  <span class="badge">C.C.C. HEEP WOH · PODCAST</span>
   <h1>🦌 協小新聞台</h1>
-  <p>本港｜國際｜體育｜文化藝術 · 每節約 1 分半</p>
+  <p>每日 3 分鐘 · 本地／國際／體育／藝術 · 四格自由聽</p>
 </header>
 
-<div class="hero" id="hero">
-  <div class="d" id="hdate">—</div>
-  <div class="t">今日新聞報道</div>
-  <div class="m" id="hmeta">—</div>
-  <button id="bigbtn" onclick="playFrom(0)">▶ 開始收聽</button>
+<div class="grid" id="grid"></div>
+<div class="switch">
+  <button id="swListen" class="on" onclick="setMode('listen')">🎧 聽新聞</button>
+  <button id="swCards" onclick="setMode('cards')">👧 低小睇圖卡</button>
 </div>
 
-<div class="hint">撳任何一節即由該節開始播放</div>
-<div class="chap" id="chap"></div>
-<h3>過去集數</h3>
-<div class="list" id="list"></div>
+<div id="cardsView">
+  <div class="slides" id="slides"></div>
+  <div class="pager">
+    <button onclick="slideTo(ci-1)">‹</button>
+    <span id="cpage">1 / 4</span>
+    <button onclick="slideTo(ci+1)">›</button>
+  </div>
+  <div class="cardsHint">用手指左右滑 · 撳「▶ 聽這一則」可以即聽同一個頻道</div>
+</div>
+
+<div class="hint">撳任何一格即播該頻道最新一集；播完自動接下一格</div>
+
+<section class="list">
+  <h3>全部集數</h3>
+  <div id="eps"></div>
+</section>
 
 <div id="bar">
   <div class="top">
-    <div class="tt"><b id="bt">未播放</b><span id="bs">撳上面開始</span></div>
+    <div class="ic2" id="bic">🎧</div>
+    <div class="tt"><b id="bt">未播放</b><span id="bs">選擇頻道開始收聽</span></div>
   </div>
-  <input id="seek" type="range" min="0" max="1000" value="0">
+  <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
   <div class="row">
-    <button onclick="jump(-15)">« 15秒</button>
-    <button id="pp" onclick="toggle()">▶ 播放</button>
-    <button onclick="jump(15)">15秒 »</button>
-    <button onclick="navChap(1)">下一節 ▶</button>
-    <div class="tm" id="tm">0:00 / 0:00</div>
+    <button onclick="toggle()" id="bplay">▶ 播放</button>
+    <button onclick="shift(-15)">« 15s</button>
+    <button onclick="shift(15)">15s »</button>
+    <button onclick="nextCh()">下一格 ▶</button>
+    <span class="tm" id="btm">0:00 / 0:00</span>
   </div>
 </div>
+
 <audio id="au" preload="metadata"></audio>
-
 <script>
-let META=null, au=document.getElementById('au');
-const fmt=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const CATS = [
+  {k:"本地", ic:"🏙️", c:"c1"}, {k:"國際", ic:"🌏", c:"c2"},
+  {k:"體育", ic:"🏅", c:"c3"}, {k:"藝術", ic:"🎨", c:"c4"}
+];
+let EPS = [], idx = -1, au = document.getElementById("au");
 
-fetch('bulletin.json').then(r=>r.json()).then(m=>{
-  META=m;
-  document.getElementById('hdate').textContent=m.date;
-  document.getElementById('hmeta').textContent=fmt(m.sec)+'分鐘 · '+m.chars+'字 · 4 節';
-  document.getElementById('chap').innerHTML=m.chapters.filter(c=>c.label!=='開場').map((c,i)=>
-    `<div class="chip" data-i="${m.chapters.indexOf(c)}" onclick="playFrom(${c.t})">
-      <b>${c.label}</b><span>${fmt(c.t)} 開始 · ${c.sec}秒</span></div>`).join('');
-  document.getElementById('list').innerHTML=
-    `<div class="ep"><div class="t"><b>${m.date}　新聞報道</b><span>${fmt(m.sec)}分鐘 · 本港／國際／體育／文化藝術</span></div>
-     <button onclick="playFrom(0)">▶ 播</button></div>`;
-  au.src=m.file;
-  au.addEventListener('timeupdate',tick);
-  au.addEventListener('ended',()=>{document.getElementById('pp').textContent='▶ 播放'});
-  au.addEventListener('loadedmetadata',tick);
-}).catch(e=>{document.getElementById('hmeta').textContent='載入失敗：'+e.message});
+fetch("episodes.json?t=" + Date.now()).then(r => r.json()).then(d => {
+  EPS = (d.episodes || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  draw();
+}).catch(e => { document.getElementById("grid").innerHTML = '<p style="padding:20px">載入失敗：' + e.message + "</p>"; });
 
-function playFrom(t){au.currentTime=t;au.play();document.getElementById('pp').textContent='❚❚ 暫停';markActive(t)}
-function toggle(){if(au.paused){au.play();document.getElementById('pp').textContent='❚❚ 暫停'}else{au.pause();document.getElementById('pp').textContent='▶ 播放'}}
-function jump(d){if(au.duration)au.currentTime=Math.min(au.duration,Math.max(0,au.currentTime+d))}
-function navChap(dir){
-  if(!META)return;
-  const ts=META.chapters.map(c=>c.t), cur=au.currentTime;
-  let target=null;
-  if(dir>0){target=ts.find(t=>t>cur+1);}
-  else{const back=ts.filter(t=>t<cur-2);target=back.length?back[back.length-1]:0}
-  playFrom(target==null?(dir>0?au.duration:0):target);
+function latest(cat) { return EPS.find(e => e.cat === cat); }
+function draw() {
+  document.getElementById("grid").innerHTML = CATS.map((c, i) => {
+    const e = latest(c.k);
+    return `<div class="tile ${c.c}" onclick="playCat('${c.k}')" id="tile${i}">
+      <div class="cover ${c.c}">${c.ic}</div>
+      <div class="body"><h2>${c.k}</h2>
+        <div class="sub">${e ? e.sec + " 秒 · " + e.date : "今日未有"}</div>
+        <div class="go">▶ 收聽</div></div></div>`;
+  }).join("");
+  document.getElementById("eps").innerHTML = EPS.map((e, i) => {
+    const c = CATS.find(x => x.k === e.cat) || {ic:"🎧", c:"c1"};
+    return `<div class="ep"><div class="ic ${c.c}">${c.ic}</div>
+      <div class="t"><b>${e.cat}｜${e.date}</b><span>${e.sec} 秒 · 約 ${e.chars} 字稿</span></div>
+      <button onclick="playIdx(${i})">▶</button></div>`;
+  }).join("") || '<p style="color:#6f6459">暫無集數</p>';
 }
-function markActive(t){
-  if(!META)return;
-  const idx=META.chapters.reduce((a,c,i)=>c.t<=t+0.5?i:a,0);
-  [...document.querySelectorAll('.chip')].forEach(el=>el.classList.toggle('on',+el.dataset.i===idx));
-  document.getElementById('bt').textContent=META.chapters[idx].label;
+/* ── 低小圖卡模式 ── */
+let CARDS = [], ci = 0, cardDate = "";
+function setMode(m) {
+  const low = m === "cards";
+  document.body.classList.toggle("lowmode", low);
+  document.getElementById("swCards").classList.toggle("on", low);
+  document.getElementById("swListen").classList.toggle("on", !low);
+  if (low) loadCards();
 }
-function tick(){
-  const d=au.duration||META?.sec||0;
-  document.getElementById('seek').value=au.currentTime/d*1000;
-  document.getElementById('tm').textContent=fmt(au.currentTime)+' / '+fmt(d);
-  document.getElementById('bs').textContent=META?getSectionName(au.currentTime):'';
-  markActive(au.currentTime);
+function loadCards() {
+  if (CARDS.length) return;
+  fetch("cards.json?t=" + Date.now()).then(r => r.json()).then(d => {
+    const dates = Object.keys(d).sort().reverse();
+    if (!dates.length) { document.getElementById("slides").innerHTML = '<p style="padding:20px">暫無圖卡</p>'; return; }
+    cardDate = dates[0];
+    const day = d[cardDate];
+    CARDS = CATS.filter(c => day[c.k]).map(c => Object.assign({ cat: c.k, cls: c.c, ic: c.ic }, day[c.k]));
+    drawCards();
+  }).catch(e => {
+    document.getElementById("slides").innerHTML = '<p style="padding:20px">圖卡載入失敗：' + e.message + "</p>";
+  });
 }
-function getSectionName(t){
-  if(!META)return'';
-  const c=META.chapters.reduce((a,x)=>x.t<=t+0.5?x:a,META.chapters[0]);
-  return '現正播放：'+c.label;
+function drawCards() {
+  const dt = cardDate.replace(/-/g, "/");
+  document.getElementById("slides").innerHTML = CARDS.map((c, i) => `
+    <div class="bigcard">
+      <div class="top ${c.cls}"><span class="cat">${c.cat}</span><span class="dt">${dt}</span>${c.icon}${c.icon2}</div>
+      <div class="bd">
+        <h2>${c.title}</h2>
+        <ul>${c.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        <div class="think">🤔 <b>想一想：</b>${c.think}</div>
+        <div class="src">資料來源：${c.source}</div>
+        <div class="acts">
+          <button class="p" onclick="setMode('listen');playCat('${c.cat}')">▶ 聽這一則</button>
+          <button onclick="window.open('cards/${cardDate}/${c.cat}.png','_blank')">🖼 投影版</button>
+        </div>
+      </div>
+    </div>`).join("");
+  const s = document.getElementById("slides");
+  s.onscroll = () => {
+    const w = s.clientWidth;
+    ci = Math.round(s.scrollLeft / w);
+    document.getElementById("cpage").textContent = (ci + 1) + " / " + CARDS.length;
+  };
+  slideTo(0);
 }
-document.getElementById('seek').addEventListener('input',e=>{if(au.duration)au.currentTime=e.target.value/1000*au.duration});
+function slideTo(i) {
+  if (!CARDS.length) return;
+  ci = Math.max(0, Math.min(CARDS.length - 1, i));
+  const s = document.getElementById("slides");
+  s.scrollTo({ left: ci * s.clientWidth, behavior: "smooth" });
+  document.getElementById("cpage").textContent = (ci + 1) + " / " + CARDS.length;
+}
+
+function playCat(cat) {
+  const i = EPS.findIndex(e => e.cat === cat);
+  if (i < 0) return alert("呢個頻道今日未有集數");
+  playIdx(i);
+}
+function playIdx(i) {
+  idx = i; const e = EPS[i];
+  au.src = e.file; au.play();
+  const c = CATS.find(x => x.k === e.cat) || {ic:"🎧", c:"c1"};
+  document.getElementById("bic").className = "ic2 " + c.c;
+  document.getElementById("bic").textContent = c.ic;
+  document.getElementById("bt").textContent = e.cat + "｜" + e.date;
+  document.getElementById("bs").textContent = "約 " + e.sec + " 秒";
+  document.getElementById("bplay").textContent = "❚❚ 暫停";
+  document.querySelectorAll(".tile").forEach(t => t.classList.remove("playing"));
+  const t = document.getElementById("tile" + CATS.findIndex(x => x.k === e.cat));
+  if (t) t.classList.add("playing");
+}
+function toggle() {
+  if (!au.src) return playCat("本地");
+  if (au.paused) { au.play(); document.getElementById("bplay").textContent = "❚❚ 暫停"; }
+  else { au.pause(); document.getElementById("bplay").textContent = "▶ 播放"; }
+}
+function shift(s) { au.currentTime = Math.max(0, Math.min(au.duration || 0, au.currentTime + s)); }
+function nextCh() {
+  if (idx < 0) return playCat("本地");
+  const cur = EPS[idx].cat;
+  const order = CATS.map(c => c.k);
+  const nx = order[(order.indexOf(cur) + 1) % order.length];
+  playCat(nx);
+}
+au.addEventListener("timeupdate", () => {
+  const p = au.duration ? au.currentTime / au.duration * 100 : 0;
+  document.getElementById("seek").value = p;
+  document.getElementById("btm").textContent = fmt(au.currentTime) + " / " + fmt(au.duration || 0);
+});
+document.getElementById("seek").addEventListener("input", e => {
+  if (au.duration) au.currentTime = au.duration * e.target.value / 100;
+});
+au.addEventListener("ended", nextCh);
+function fmt(s) { s = Math.floor(s || 0); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
 </script>
-</body></html>
+</body>
+</html>
