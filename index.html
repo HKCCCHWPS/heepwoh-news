@@ -187,7 +187,7 @@ function drawCards() {
         <h2>${c.title}</h2>
         <ul>${c.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
         <div class="think">🤔 <b>想一想：</b>${c.think}</div>
-        <div class="src">資料來源：${c.source}</div>
+        <div class="src">資料來源：${c.source}　·　<b style="color:var(--gold)">想知多啲？Click「▶ 聽這一則」了解多啲！</b></div>
         <div class="acts">
           <button class="p" onclick="setMode('listen');playCat('${c.cat}')">▶ 聽這一則</button>
           <button onclick="window.open('cards/${cardDate}/${c.cat}.png','_blank')">🖼 投影版</button>
