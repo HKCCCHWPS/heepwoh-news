@@ -52,6 +52,11 @@ section.list h3{font-size:14px;color:var(--muted);letter-spacing:1px;margin:14px
 body.lowmode .grid,body.lowmode .hint,body.lowmode section.list{display:none}
 #cardsView{display:none;padding:8px 0 10px}
 body.lowmode #cardsView{display:block}
+#cdate{display:flex;gap:7px;overflow-x:auto;padding:8px 14px 4px;scrollbar-width:none}
+#cdate::-webkit-scrollbar{display:none}
+#cdate button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:#cbbfb2;
+  font-family:inherit;font-size:13px;padding:7px 13px;border-radius:999px}
+#cdate button.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
 body.lowmode #bar{display:none}
 body.lowmode{padding-bottom:26px}
 .slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:0 14px 6px;
@@ -95,6 +100,7 @@ body.lowmode{padding-bottom:26px}
 
 <div class="grid" id="grid"></div>
 <div id="cardsView">
+  <div id="cdate"></div>
   <div class="slides" id="slides"></div>
   <div class="pager">
     <button onclick="slideTo(ci-1)">‹</button>
@@ -157,7 +163,7 @@ function draw() {
   }).join("") || '<p style="color:#6f6459">暫無集數</p>';
 }
 /* ── 低小圖卡模式 ── */
-let CARDS = [], ci = 0, cardDate = "";
+let CARDS = [], ci = 0, cardDate = "", CARDS_ALL = {}, CARD_DATES = [];
 function setMode(m) {
   const low = m === "cards";
   document.body.classList.toggle("lowmode", low);
@@ -166,17 +172,31 @@ function setMode(m) {
   if (low) loadCards();
 }
 function loadCards() {
-  if (CARDS.length) return;
+  if (CARD_DATES.length) return;
   fetch("cards/cards.json?t=" + Date.now()).then(r => r.json()).then(d => {
-    const dates = Object.keys(d).sort().reverse();
-    if (!dates.length) { document.getElementById("slides").innerHTML = '<p style="padding:20px">暫無圖卡</p>'; return; }
-    cardDate = dates[0];
-    const day = d[cardDate];
-    CARDS = CATS.filter(c => day[c.k]).map(c => Object.assign({ cat: c.k, cls: c.c, ic: c.ic }, day[c.k]));
-    drawCards();
+    CARDS_ALL = d;
+    CARD_DATES = Object.keys(d).sort().reverse();
+    if (!CARD_DATES.length) { document.getElementById("slides").innerHTML = '<p style="padding:20px">暫無圖卡</p>'; return; }
+    drawDateChips();
+    pickCardDate(CARD_DATES[0]);
   }).catch(e => {
     document.getElementById("slides").innerHTML = '<p style="padding:20px">圖卡載入失敗：' + e.message + "</p>";
   });
+}
+function drawDateChips() {
+  const box = document.getElementById("cdate");
+  if (!box) return;
+  box.innerHTML = CARD_DATES.map(d => {
+    const [, m, dd] = d.split("-");
+    return `<button onclick="pickCardDate('${d}')" data-d="${d}" class="${d === cardDate ? 'on' : ''}">${+m}/${+dd}</button>`;
+  }).join("");
+}
+function pickCardDate(d) {
+  cardDate = d;
+  const day = CARDS_ALL[d] || {};
+  CARDS = CATS.filter(c => day[c.k]).map(c => Object.assign({ cat: c.k, cls: c.c, ic: c.ic }, day[c.k]));
+  drawCards();
+  document.querySelectorAll("#cdate button").forEach(b => b.classList.toggle("on", b.dataset.d === d));
 }
 function drawCards() {
   const dt = cardDate.replace(/-/g, "/");
