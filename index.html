@@ -39,6 +39,14 @@ section.list h3{font-size:14px;color:var(--muted);letter-spacing:1px;margin:14px
   border:1px solid var(--line);border-radius:10px;padding:9px 10px;text-align:center;
   font-family:inherit;font-size:14px;letter-spacing:.5px;color-scheme:dark}
 .ep{display:flex;align-items:center;gap:12px;padding:11px 12px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+#hero{margin:2px 0 12px}
+#hero .card{background:linear-gradient(160deg,#C8102E,#8E0B20);color:#fff;border-radius:16px;padding:15px 17px;position:relative;overflow:hidden}
+#hero .dt{font-size:12.5px;opacity:.88;letter-spacing:1px}
+#hero .wx{font-size:12.5px;opacity:.92;margin:5px 0 0;line-height:1.45}
+#hero .tag{display:inline-block;background:#fff;color:#C8102E;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 10px;margin:11px 0 6px}
+#hero .lead{font-size:19.5px;font-weight:700;line-height:1.42;margin:0 0 11px}
+#hero button{border:0;background:#fff;color:#C8102E;font-weight:700;font-size:14px;border-radius:11px;padding:11px 18px;cursor:pointer;font-family:inherit}
+#hero button:active{transform:scale(.97)}
 #dchips{display:flex;gap:7px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}
 #dchips::-webkit-scrollbar{display:none}
 #dchips button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:#cbbfb2;
@@ -137,6 +145,7 @@ body.lowmode{padding-bottom:26px}
   </div>
   <h3 id="daytitle">集數</h3>
   <div id="dchips"></div>
+  <div id="hero"></div>
   <div id="eps"></div>
 </section>
 
@@ -202,6 +211,19 @@ function renderList() {
   document.getElementById("daytitle").textContent =
     `${y} 年 ${+m} 月 ${+dd} 日（星期${wd}）· ${list.length} 集` +
     (DAYS.length ? `　·　第 ${pos + 1}／${DAYS.length} 日` : "");
+  // ── 封面：日期＋天氣＋今日第一則（Felix 2026-11-02 要求）──
+  const heroBox = document.getElementById("hero");
+  if (heroBox) {
+    const first = list[0];
+    const wx = (list.find(e => e.weather) || {}).weather || "";
+    heroBox.innerHTML = first ? `<div class="card">
+      <div class="dt">${y} 年 ${+m} 月 ${+dd} 日（星期${wd}）</div>
+      ${wx ? `<div class="wx">🌤 ${wx}</div>` : ""}
+      <div class="tag">今日第一則</div>
+      <div class="lead">${first.lead || first.title || first.cat}</div>
+      <button onclick="playIdx(${EPS.indexOf(first)})">▶ 由第一則開始聽</button>
+    </div>` : "";
+  }
   document.getElementById("eps").innerHTML = list.map(e => {
     const i = EPS.indexOf(e);
     const c = CATS.find(x => x.k === e.cat) || {ic: "🎧", c: "c1"};
