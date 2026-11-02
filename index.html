@@ -222,7 +222,7 @@ function renderList() {
       ${wx ? `<div class="wx">🌤 ${wx}</div>` : ""}
       <div class="tag">今日第一則</div>
       <div class="lead">${first.title_w || first.lead || first.title || first.cat}</div>
-      <button onclick="playIdx(${EPS.indexOf(first)})">▶ 由第一則開始聽</button>
+      <button onclick="playHero()">▶ 由第一則開始聽（先報日期天氣）</button>
     </div>` : "";
   }
   document.getElementById("eps").innerHTML = list.map(e => {
@@ -317,6 +317,17 @@ function slideTo(i) {
   const s = document.getElementById("slides");
   s.scrollTo({ left: ci * s.clientWidth, behavior: "smooth" });
   document.getElementById("cpage").textContent = (ci + 1) + " / " + CARDS.length;
+}
+
+
+function playHero() {
+  const intro = EPS.find(e => e.cat === "開場" && e.date === curDay);
+  const firstNews = EPS.filter(e => e.date === curDay && e.cat !== "開場")
+                       .sort((a,b)=>CATS.findIndex(x=>x.k===a.cat)-CATS.findIndex(x=>x.k===b.cat))[0];
+  if (!firstNews) return;
+  if (!intro) return playIdx(EPS.indexOf(firstNews));
+  au.onended = () => { au.onended = null; playIdx(EPS.indexOf(firstNews)); };
+  playIdx(EPS.indexOf(intro));
 }
 
 function playCat(cat) {
