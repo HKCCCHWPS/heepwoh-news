@@ -215,12 +215,13 @@ function renderList() {
   const heroBox = document.getElementById("hero");
   if (heroBox) {
     const first = list[0];
-    const wx = (list.find(e => e.weather) || {}).weather || "";
+    const wxE = list.find(e => e.weather_w || e.weather) || {};
+    const wx = wxE.weather_w || wxE.weather || "";
     heroBox.innerHTML = first ? `<div class="card">
       <div class="dt">${y} 年 ${+m} 月 ${+dd} 日（星期${wd}）</div>
       ${wx ? `<div class="wx">🌤 ${wx}</div>` : ""}
       <div class="tag">今日第一則</div>
-      <div class="lead">${first.lead || first.title || first.cat}</div>
+      <div class="lead">${first.title_w || first.lead || first.title || first.cat}</div>
       <button onclick="playIdx(${EPS.indexOf(first)})">▶ 由第一則開始聽</button>
     </div>` : "";
   }
@@ -228,7 +229,7 @@ function renderList() {
     const i = EPS.indexOf(e);
     const c = CATS.find(x => x.k === e.cat) || {ic: "🎧", c: "c1"};
     return `<div class="ep"><div class="ic ${c.c}">${c.ic}</div>
-      <div class="t"><b>${e.cat}｜${e.title || e.date}</b><span>${e.sec} 秒 · 約 ${e.chars} 字稿</span></div>
+      <div class="t"><b>${e.cat}｜${e.title_w || e.title || e.date}</b><span>${e.sec} 秒 · 約 ${e.chars} 字稿</span></div>
       <button onclick="playIdx(${i})">▶</button></div>`;
   }).join("") || '<p style="color:#6f6459;padding:4px 2px">這日未有集數 — 用上面日曆或 ‹ › 揀另一日</p>';
   document.getElementById("dchips").innerHTML = DAYS.slice(0, 14).map(x => {
