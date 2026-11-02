@@ -303,7 +303,7 @@ function playCat(cat) {
 }
 function playIdx(i) {
   idx = i; const e = EPS[i];
-  au.src = e.file; au.play();
+  au.src = e.file + (e.ver ? "?v=" + e.ver : ""); au.play();
   const c = CATS.find(x => x.k === e.cat) || {ic:"🎧", c:"c1"};
   document.getElementById("bic").className = "ic2 " + c.c;
   document.getElementById("bic").textContent = c.ic;
