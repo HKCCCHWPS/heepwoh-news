@@ -206,7 +206,7 @@ function stepDay(n) {                       // n=1 前一日（更舊）, n=-1 �
 function renderList() {
   const d = curDay, [y, m, dd] = d.split("-");
   const wd = "日一二三四五六"[new Date(d + "T00:00:00").getDay()];
-  const list = EPS.filter(e => e.date === d);
+  const list = EPS.filter(e => e.date === d && e.cat !== "開場");
   const pos = DAYS.indexOf(d);
   document.getElementById("daytitle").textContent =
     `${y} 年 ${+m} 月 ${+dd} 日（星期${wd}）· ${list.length} 集` +
