@@ -7,7 +7,7 @@
 <style>
 :root{--red:#C8102E;--ink:#171310;--bg:#100e0c;--card:#1d1916;--line:#332c26;--muted:#a89a8c;--gold:#E9C46A}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:#f3ede6;font-family:"Microsoft JhengHei","華康中圓體",sans-serif;padding-bottom:215px}
+body{margin:0;background:var(--bg);color:#f3ede6;font-family:"Microsoft JhengHei","華康中圓體",sans-serif;padding-bottom:262px}
 header{padding:14px 16px 6px;text-align:center}
 header .badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;letter-spacing:1px}
 header h1{margin:8px 0 4px;font-size:26px;letter-spacing:2px}
@@ -67,6 +67,10 @@ section.list h3{font-size:14px;color:var(--muted);letter-spacing:1px;margin:14px
 #bar .row{display:flex;align-items:center;gap:10px;margin-top:4px}
 #bar .row button{background:#2a231d;color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:13px}
 #bar .tm{margin-left:auto;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+#bar .spd{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+#bar .spd .sl{font-size:11px;color:var(--muted);margin-right:2px}
+#bar .spd button{background:#241d18;color:#cfc4b8;border:1px solid #33291f;border-radius:999px;padding:4px 10px;font-size:12px;font-variant-numeric:tabular-nums}
+#bar .spd button.sel{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
 .hint{color:#6f6459;font-size:11.5px;text-align:center;padding:0 20px 10px}
 /* ── 模式切換（2026-11-01）：聽新聞 ⇄ 低小睇圖卡 ── */
 .switch{display:flex;gap:8px;padding:10px 14px 4px}
@@ -162,6 +166,14 @@ body.lowmode{padding-bottom:26px}
     <button onclick="nextCh()">下一格 ▶</button>
     <span class="tm" id="btm">0:00 / 0:00</span>
   </div>
+  <div class="spd" id="spd">
+    <span class="sl">速度</span>
+    <button onclick="setSpeed(0.75)">0.75×</button>
+    <button onclick="setSpeed(0.9)">0.9×</button>
+    <button onclick="setSpeed(1)">1×</button>
+    <button onclick="setSpeed(1.1)">1.1×</button>
+    <button onclick="setSpeed(1.25)">1.25×</button>
+  </div>
 </div>
 
 <audio id="au" preload="metadata"></audio>
@@ -171,6 +183,23 @@ const CATS = [
   {k:"體育", ic:"🏅", c:"c3"}, {k:"藝術", ic:"🎨", c:"c4"}
 ];
 let EPS = [], idx = -1, au = document.getElementById("au");
+
+/* ── 播放速度（2026-11-03 校長：聽落 OK 但慢咗啲 → 加掣俾老師自己調） ── */
+let SPD = parseFloat(localStorage.getItem("newsspeed") || "1") || 1;
+function applySpeed() {
+  au.playbackRate = SPD;
+  document.querySelectorAll("#spd button").forEach(b => {
+    b.classList.toggle("sel", Math.abs(parseFloat(b.textContent) - SPD) < 0.001);
+  });
+}
+function setSpeed(v) {
+  SPD = v;
+  try { localStorage.setItem("newsspeed", String(v)); } catch (e) {}
+  applySpeed();
+}
+au.addEventListener("loadedmetadata", applySpeed);
+au.addEventListener("play", applySpeed);
+setTimeout(applySpeed, 0);
 
 fetch("episodes.json?t=" + Date.now()).then(r => r.json()).then(d => {
   EPS = (d.episodes || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
