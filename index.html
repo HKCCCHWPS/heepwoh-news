@@ -10,7 +10,10 @@
 body{margin:0;background:var(--bg);color:#f3ede6;font-family:"Microsoft JhengHei","華康中圓體",sans-serif;padding-bottom:262px}
 header{padding:14px 16px 6px;text-align:center}
 header .badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;letter-spacing:1px}
-header h1{margin:8px 0 4px;font-size:26px;letter-spacing:2px}
+header h1{margin:0;font-size:26px;letter-spacing:2px;text-align:center}
+header .hrow{display:grid;grid-template-columns:46px 1fr 46px;align-items:center;gap:6px;max-width:430px;margin:8px auto 0}
+header .hlogo{width:46px;height:46px;object-fit:contain;display:block;margin:0 auto}
+header .hdeer{font-size:26px;justify-self:end;line-height:1}
 header p{margin:0;color:var(--muted);font-size:13px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 14px 8px}
 .tile{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);cursor:pointer}
@@ -117,7 +120,11 @@ body.lowmode{padding-bottom:26px}
 <body>
 <header>
   <span class="badge">C.C.C. HEEP WOH · PODCAST</span>
-  <h1>🦌 協小新聞台</h1>
+  <div class="hrow">
+    <img class="hlogo" src="img/logo.png" alt="協和小學校徽">
+    <h1>協小新聞台</h1>
+    <span class="hdeer">🦌</span>
+  </div>
   <p>每日 3 分鐘 · 本地／國際／體育／藝術 · 四格自由聽</p>
 </header>
 
